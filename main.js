@@ -2,7 +2,11 @@ import imgSource from "./gallery-items.js";
 
 // console.log(imgSource);
 
-const gallery = document.querySelector('.js-gallery');
+const refGallery = document.querySelector('.js-gallery');
+const refModal = document.querySelector('.js-lightbox');
+const refCloseModalBtn = document.querySelector('[data-action="close-lightbox"]');
+const modalImg = refModal.querySelector('.lightbox__image');
+console.log(refModal);
 
 function renderImgs(imagesArr) {
     return imagesArr.reduce((renderString, img) => {
@@ -22,5 +26,23 @@ function renderImgs(imagesArr) {
     }, '');
 }
 
-console.log(renderImgs(imgSource));
-gallery.insertAdjacentHTML("afterbegin", renderImgs(imgSource));
+function openModalHandler(event) {
+    event.preventDefault();
+    const currImg = event.target;
+    refModal.classList.add('is-open');
+    modalImg.src = currImg.dataset.source;
+}
+
+function closeModalHandler() {
+    refModal.classList.remove('is-open');
+    modalImg.src = "";
+}
+
+
+
+// console.log(renderImgs(imgSource));
+refGallery.insertAdjacentHTML("afterbegin", renderImgs(imgSource));
+
+refGallery.addEventListener('click', openModalHandler);
+
+refCloseModalBtn.addEventListener('click', closeModalHandler);
