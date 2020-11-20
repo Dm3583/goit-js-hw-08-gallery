@@ -43,7 +43,7 @@ function clearImgSrc() {
     modalImg.src = "";
 }
 
-function keyHandler({ type, key, code }) {
+function keyHandler({ code }) {
     const index = currentImgIndex();
 
     switch (code) {
@@ -57,7 +57,7 @@ function keyHandler({ type, key, code }) {
                 modalImg.src = imgSource[0].original;
             } else {
                 modalImg.src = imgSource[decrement(index)].original;
-                // console.log("Left ", type, code, decrement(index));
+                // console.log("Left ", code, decrement(index));
             }
             break;
 
@@ -67,7 +67,7 @@ function keyHandler({ type, key, code }) {
                 modalImg.src = imgSource[imgSource.length - 1].original;
             } else {
                 modalImg.src = imgSource[increment(index)].original;
-                // console.log("Right ", type, code, increment(index))
+                // console.log("Right ", code, increment(index))
             };
             break;
     };
