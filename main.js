@@ -1,18 +1,15 @@
 import imgSource from "./gallery-items.js";
 
-// console.log(imgSource);
-
 const refGallery = document.querySelector('.js-gallery');
+const refModalOverlay = document.querySelector('.lightbox__overlay');
 const refModal = document.querySelector('.js-lightbox');
 const refCloseModalBtn = document.querySelector('[data-action="close-lightbox"]');
 const modalImg = refModal.querySelector('.lightbox__image');
-console.log(refModal);
 
 function renderImgs(imagesArr) {
-    return imagesArr.reduce((renderString, img) => {
+    return imagesArr.reduce((renderImages, img) => {
         const { preview, original, description } = img;
-        // console.log(preview, original, description);
-        renderString += `<li class="gallery__item">
+        renderImages += `<li class="gallery__item">
                             <a class="gallery__link" href = "${original}">
                                 <img
                                     class="gallery__image"
@@ -22,7 +19,7 @@ function renderImgs(imagesArr) {
                                  />
                             </a>
                         </li>`;
-        return renderString;
+        return renderImages;
     }, '');
 }
 
@@ -31,18 +28,71 @@ function openModalHandler(event) {
     const currImg = event.target;
     refModal.classList.add('is-open');
     modalImg.src = currImg.dataset.source;
+    window.addEventListener('keydown', keyHandler);
+    document.body.classList.add('stop-scrolling');
 }
 
 function closeModalHandler() {
     refModal.classList.remove('is-open');
+    clearImgSrc();
+    window.removeEventListener('keydown', keyHandler);
+    document.body.classList.remove('stop-scrolling');
+}
+
+function clearImgSrc() {
     modalImg.src = "";
 }
 
+function keyHandler({ type, key, code }) {
+    const index = currentImgIndex();
+
+    switch (code) {
+        case "Escape":
+            closeModalHandler()
+            break;
+        case "KeyA":
+        case "ArrowLeft":
+
+            if (index - 1 < 0) {
+                modalImg.src = imgSource[0].original;
+            } else {
+                modalImg.src = imgSource[decrement(index)].original;
+                // console.log("Left ", type, code, decrement(index));
+            }
+            break;
+
+        case "KeyD":
+        case "ArrowRight":
+            if (index + 1 > imgSource.length - 1) {
+                modalImg.src = imgSource[imgSource.length - 1].original;
+            } else {
+                modalImg.src = imgSource[increment(index)].original;
+                // console.log("Right ", type, code, increment(index))
+            };
+            break;
+    };
+};
+
+function currentImgIndex() {
+    let img = modalImg;
+    for (let i = 0; i < imgSource.length; i += 1) {
+        if (img.src === imgSource[i].original) {
+            return i;
+        };
+    };
+};
+
+function increment(i) {
+    return i += 1
+};
+
+function decrement(i) {
+    return i -= 1
+};
 
 
-// console.log(renderImgs(imgSource));
 refGallery.insertAdjacentHTML("afterbegin", renderImgs(imgSource));
-
 refGallery.addEventListener('click', openModalHandler);
 
 refCloseModalBtn.addEventListener('click', closeModalHandler);
+refModalOverlay.addEventListener('click', closeModalHandler);
