@@ -21,7 +21,7 @@ function renderImgs(imagesArr) {
                         </li>`;
         return renderImages;
     }, '');
-}
+};
 
 function openModalHandler(event) {
     event.preventDefault();
@@ -48,7 +48,7 @@ function keyHandler({ code }) {
 
     switch (code) {
         case "Escape":
-            closeModalHandler()
+            closeModalHandler();
             break;
         case "KeyA":
         case "ArrowLeft":
@@ -67,7 +67,7 @@ function keyHandler({ code }) {
                 modalImg.src = imgSource[imgSource.length - 1].original;
             } else {
                 modalImg.src = imgSource[increment(index)].original;
-                // console.log("Right ", code, increment(index))
+                // console.log("Right ", code, increment(index));
             };
             break;
     };
@@ -83,11 +83,11 @@ function currentImgIndex() {
 };
 
 function increment(i) {
-    return i += 1
+    return i += 1;
 };
 
 function decrement(i) {
-    return i -= 1
+    return i -= 1;
 };
 
 
