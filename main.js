@@ -24,6 +24,9 @@ function renderImgs(imagesArr) {
 };
 
 function openModalHandler(event) {
+    if (event.target.nodeName !== "IMG") {
+        return;
+    }
     event.preventDefault();
     const currImg = event.target;
     refModal.classList.add('is-open');
@@ -75,11 +78,14 @@ function keyHandler({ code }) {
 
 function currentImgIndex() {
     let img = modalImg;
-    for (let i = 0; i < imgSource.length; i += 1) {
-        if (img.src === imgSource[i].original) {
-            return i;
-        };
-    };
+    // for (let i = 0; i < imgSource.length; i += 1) {
+    //     if (img.src === imgSource[i].original) {
+    //         return i;
+    //     };
+    // };
+    let currImg = imgSource.find(el => img.src === el.original);
+    console.log(imgSource.indexOf(currImg));
+    return imgSource.indexOf(currImg);
 };
 
 function increment(i) {
