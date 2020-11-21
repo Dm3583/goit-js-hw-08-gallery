@@ -84,7 +84,7 @@ function currentImgIndex() {
     //     };
     // };
     let currImg = imgSource.find(el => img.src === el.original);
-    console.log(imgSource.indexOf(currImg));
+    // console.log(imgSource.indexOf(currImg));
     return imgSource.indexOf(currImg);
 };
 
